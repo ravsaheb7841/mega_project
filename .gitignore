@@ -1,0 +1,44 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE/Editor files
+.vscode/
+.idea/
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+
+# Datasets / Large files (optional - जर dataset push करायचं नसेल तर)
+*.csv
+*.tsv
+*.xlsx
+*.zip
+*.tar.gz
+*.h5
+*.pkl
+*.json
+
+# Kaggle / Colab
+kaggle.json
+*.ipynb

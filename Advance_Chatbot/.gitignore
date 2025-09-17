@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+.venv*/
+.env
+.env.*
+
+# Machine Learning / Data files
+*.h5
+*.pkl
+*.keras
+*.joblib
+
+# Project-specific data
+MRI_3D/data/Training/
+MRI_3D/data/Testing/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node / Frontend build
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor / IDE files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+Thumbs.db

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermatology AI – Skin Disease Classifier</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7fa;
+    scroll-behavior: smooth;
+    transition: background .3s ease, color .3s ease;
+  }
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(270deg,#ff6a00,#ee0979,#23d5ab,#23a6d5);
+    background-size: 800% 800%;
+    animation: gradientShift 15s ease infinite;
+    color:#fff;
+    padding:7rem 0;
+    text-align:center;
+    position:relative;
+    border-radius: 1rem;
+  }
+  @keyframes gradientShift {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  .hero::after {
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    background: rgba(255,255,255,0.05);
+  }
+  .hero-content { position:relative; z-index:1; }
+
+  /* Upload Card */
+  .upload-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(16px);
+    border-radius:1rem;
+    padding:2rem;
+    display:inline-block;
+    box-shadow:0 8px 30px rgba(0,0,0,0.1);
+    transition: transform .3s ease;
+  }
+  .upload-card:hover { transform: scale(1.02); }
+
+  /* Feature Cards */
+  .feature-card {
+    border:none;
+    border-radius:1rem;
+    box-shadow:0 6px 20px rgba(0,0,0,0.06);
+    transition: transform .3s ease, box-shadow .3s ease;
+    background:#fff;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  }
+
+  /* Footer */
+  footer {
+    background:#f8f9fa;
+    padding:2rem 0;
+  }
+
+  /* Chatbot Button */
+  .chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg,#23a6d5,#23d5ab);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25);
+    transition: transform .3s ease, box-shadow .3s ease;
+    z-index: 999;
+  }
+  .chatbot-btn:hover {
+    transform: scale(1.1);
+    box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  }
+
+  /* Modal Styling */
+  .modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .modal-body iframe {
+    border-radius: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">Medicynth</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#how">How It Works</a></li>
+        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <a href="#upload" class="btn btn-primary ms-lg-3">Try Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="upload">
+  <div class="hero-content container">
+    <h1 class="display-4 fw-bold mb-3">AI-Powered Skin Disease Classifier</h1>
+    <p class="lead mb-4">Fast, secure & dermatologist-friendly analysis of skin conditions.</p>
+    <div class="upload-card">
+      <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" class="form-control mb-3" required>
+        <button type="submit" class="btn btn-light btn-lg"><i class="bi bi-cloud-upload"></i> Upload & Predict</button>
+      </form>
+      {% if pred_class %}
+      <div class="alert alert-success mt-3 mb-0">
+        <h5 class="mb-0">Predicted Class: {{ pred_class }}</h5>
+        <div class="progress mt-2">
+          <div class="progress-bar bg-success" style="width:70%">Confidence 70%</div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">How It Works</h2>
+    <div class="row text-center g-4">
+      <div class="col-md-4">
+        <div class="feature-card card p-4">
+          <i class="bi bi-camera fs-1 text-primary mb-3"></i>
+          <h4>1. Upload</h4>
+          <p>Take or upload a clear photo of the affected area.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card card p-4">
+          <i class="bi bi-cpu fs-1 text-primary mb-3"></i>
+          <h4>2. AI Analysis</h4>
+          <p>Our model analyses the image for potential conditions.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card card p-4">
+          <i class="bi bi-file-medical fs-1 text-primary mb-3"></i>
+          <h4>3. Get Results</h4>
+          <p>Receive a preliminary report instantly for the dermatologist.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Why Choose Our Tool</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card card p-4 text-center">
+          <i class="bi bi-lightning-charge-fill fs-1 text-warning mb-3"></i>
+          <h5>Fast</h5>
+          <p>Instant results within seconds for quick decisions.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card card p-4 text-center">
+          <i class="bi bi-shield-lock-fill fs-1 text-success mb-3"></i>
+          <h5>Secure</h5>
+          <p>Your images and data are encrypted & private.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card card p-4 text-center">
+          <i class="bi bi-heart-pulse-fill fs-1 text-danger mb-3"></i>
+          <h5>Doctor-Friendly</h5>
+          <p>Reports designed for dermatologist’s workflow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Your Name">
+          </div>
+          <div class="mb-3">
+            <input type="email" class="form-control" placeholder="Your Email">
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" rows="4" placeholder="Message"></textarea>
+          </div>
+          <button class="btn btn-primary w-100">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="mb-0">&copy; 2025 Dermatology AI. All rights reserved.</p>
+</footer>
+
+<!-- Chatbot Floating Button -->
+<button class="chatbot-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+  <i class="bi bi-chat-dots fs-3"></i>
+</button>
+
+<!-- Chatbot Modal -->
+<div class="modal fade" id="chatbotModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dermatology AI Chatbot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Replace with your chatbot link or embed code -->
+        <iframe src="https://your-chatbot-link.com" width="100%" height="400px" style="border:none;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

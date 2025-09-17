@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medicynth – MRI 3D Disease Analysis</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #f7f9fc 0%, #e9f3ff 100%);
+      font-family: 'Inter', sans-serif;
+      color: #1b1b1b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Bar */
+    .app-header {
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0077b6;
+      letter-spacing: 0.5px;
+    }
+
+    /* Card */
+    .analysis-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 780px;
+      width: 100%;
+      margin: 50px auto;
+    }
+
+    .analysis-card h1 {
+      font-weight: 700;
+      font-size: 2.1rem;
+      text-align: center;
+      color: #0077b6;
+    }
+
+    .analysis-card p {
+      text-align: center;
+      font-size: 1rem;
+      color: #4a4a4a;
+      margin-bottom: 30px;
+    }
+
+    .file-label {
+      font-weight: 600;
+      color: #0077b6;
+      margin-bottom: 8px;
+    }
+
+    .btn-custom {
+      background: linear-gradient(45deg, #0077b6, #00b4d8);
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .btn-custom:hover {
+      background: linear-gradient(45deg, #00b4d8, #0077b6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    #result-card {
+      background: #f1f9ff;
+      border: 2px dashed #b6d8ff;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #result-card img {
+      max-height: 320px;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-top: 15px;
+      border: 1px solid #dce9f8;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, #00b4d8, #0077b6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-name">Medicynth</div>
+    <!-- optional right side: add nav, login, etc. -->
+  </header>
+
+  <div class="analysis-card">
+    <h1>🧠 MRI 3D Disease Analysis</h1>
+    <p>Upload your MRI scan to get instant AI-powered 3D medical analysis</p>
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('index') }}">
+      <div class="mb-4">
+        <label for="file" class="file-label">Select MRI Image / 3D Data</label>
+        <input type="file" class="form-control form-control-lg" id="file" name="file" accept="image/*,.nii,.dcm" required>
+      </div>
+      <button type="submit" class="btn btn-custom w-100">Upload & Analyze</button>
+    </form>
+
+    <!-- Result Section -->
+    {% if result %}
+    <div id="result-card">
+      <h4 class="fw-bold text-primary">{{ result }}</h4>
+      <p class="text-muted">Confidence: {{ confidence }}%</p>
+      <img src="{{ url_for('static', filename=file_path) }}" class="img-fluid" alt="MRI Result">
+    </div>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
